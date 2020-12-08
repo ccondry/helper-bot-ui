@@ -3,10 +3,12 @@ const getters = {
     const urlBase = getters.isProduction ? '/api/v1' : 'http://localhost:4006/api/v1'
     return {
       sso: `${urlBase}/sso`,
-      users: `${urlBase}/users`,
       user: `${urlBase}/user`,
       demo: `${urlBase}/demo`,
-      validLogin: `${urlBase}/valid`
+      validLogin: `${urlBase}/valid`,
+      rooms: `${urlBase}/room`,
+      version: `${urlBase}/version`,
+      join: `${urlBase}/join`
     }
   },
   defaultRestOptions: (state, getters) => {

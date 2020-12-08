@@ -41,7 +41,7 @@
           <b-table-column
           v-slot="props"
           field="name"
-          label="Name"
+          label="Rooms"
           > 
             <a @click="$refs[`helperBotDetails-${model._id}`].toggleDetails(props.row)">
               {{ props.row.name }}
@@ -82,6 +82,10 @@
           <!-- delete button -->
           <b-button type="is-danger" @click="clickDelete">
             Delete
+          </b-button>
+          <!-- add Room button -->
+          <b-button type="is-success" @click="clickAddRoom">
+            Add Room
           </b-button>
           <!-- reset button -->
           <b-button type="is-info" @click="clickReset">

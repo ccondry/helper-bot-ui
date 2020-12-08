@@ -9,16 +9,17 @@ const state = {
     app: {},
     user: {},
     ldap: {},
-    bot: {}
+    bot: {},
+    room: {}
   },
   working: {
     app: {},
     user: {},
     ldap: {},
-    bot: {}
+    bot: {},
+    room: {}
   },
   isProduction: process.env.NODE_ENV === 'production',
-  demoEnvironment: {},
   uiVersion: version,
   apiVersion: 'Loading...'
 }
@@ -27,9 +28,8 @@ const getters = {
   isProduction: state => state.isProduction,
   loading: state => state.loading,
   working: state => state.working,
-  demoEnvironment: state => state.demoEnvironment,
   uiVersion: state => state.uiVersion,
-  apiVersion: state => state.demoEnvironment.version
+  apiVersion: state => state.apiVersion
 }
 
 const mutations = {
@@ -59,12 +59,20 @@ const mutations = {
       state.loading[data.group][data.type] = data.value
     }
   },
-  [types.SET_ENVIRONMENT] (state, data) {
-    state.demoEnvironment = data
+  [types.SET_VERSION] (state, data) {
+    state.apiVersion = data.version
   }
 }
 
 const actions = {
+  getApiVersion ({dispatch, getters}) {
+    dispatch('fetch', {
+      group: 'app',
+      type: 'version',
+      url: getters.endpoints.version,
+      mutation: types.SET_VERSION
+    })
+  },
   async fetch ({commit, getters, dispatch}, {
     group,
     type,

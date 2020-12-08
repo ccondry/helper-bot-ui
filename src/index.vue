@@ -104,12 +104,15 @@ export default {
     // try to find and validate user's JWT from localStorage,
     // or start the SSO login process to get one
     this.checkJwt()
+    // get REST API version
+    this.getApiVersion()
   },
 
   methods: {
     ...mapActions([
       'checkJwt',
-      'logout'
+      'logout',
+      'getApiVersion'
     ]),
     clickAdmin () {
       this.$router.push({name: 'Admin'}).catch(e => {})

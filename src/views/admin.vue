@@ -1,5 +1,5 @@
 <template>
-  <panel title="Users">
+  <panel title="Admin">
     <div class="content">
       <b-table
       ref="helperBotTable"
@@ -13,7 +13,7 @@
         <b-table-column
         v-slot="props"
         field="name"
-        label="Name"
+        label="Helper Bots"
         >
           <a @click="$refs.helperBotTable.toggleDetails(props.row)">
             {{ props.row.personEmail }}
