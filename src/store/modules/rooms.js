@@ -24,12 +24,12 @@ const actions = {
       mutation: types.SET_ROOMS
     })
   },
-  async joinSupportRoom ({dispatch, getters}, {room}) {
+  async joinSupportRoom ({dispatch, getters}, {id, title}) {
     const response = await dispatch('fetch', {
       message: 'join support room',
       group: 'room',
       type: 'join',
-      url: getters.endpoints.rooms + '/' + room.id + '/join',
+      url: getters.endpoints.rooms + '/' + id + '/join',
       options: {
         method: 'POST'
       }
@@ -38,7 +38,7 @@ const actions = {
       // error
       if (response.status === 409) {
         Toast.open({
-          message: `You are already a member of ${room.title}.`,
+          message: `You are already a member of ${title}.`,
           duration: 6 * 1000,
           type: 'is-success'
         })
@@ -46,7 +46,7 @@ const actions = {
     } else {
       // success
       Toast.open({
-        message: `You have been added to the ${room.title}.`,
+        message: `You have been added to the ${title}.`,
         duration: 6 * 1000,
         type: 'is-success'
       })

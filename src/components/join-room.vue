@@ -84,7 +84,8 @@ export default {
         type: 'is-success',
         onConfirm: () => {
           this.joinSupportRoom({
-            roomId: this.roomId
+            id: this.roomId,
+            title: this.selectedRoomTitle
           })
         }
       })
