@@ -5,8 +5,9 @@ export const SET_LOADING = 'SET_LOADING'
 // auth
 export const SET_JWT = 'SET_JWT'
 
-// rooms list
+// rooms
 export const SET_ROOMS = 'SET_ROOMS'
+export const SET_ROOM_DETAILS = 'SET_ROOM_DETAILS'
 
 // admin
 export const SET_USERS = 'SET_USERS'

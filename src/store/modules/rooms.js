@@ -1,16 +1,24 @@
 import * as types from '../mutation-types'
 import {ToastProgrammatic as Toast} from 'buefy/src'
+import Vue from 'vue'
+
 const state = {
-  rooms: []
+  rooms: [],
+  titles: {}
 }
 
 const getters = {
-  rooms: state => state.rooms
+  rooms: state => state.rooms,
+  roomTitles: state => state.titles
 }
 
 const mutations = {
   [types.SET_ROOMS] (state, data) {
     state.rooms = data
+  },
+  [types.SET_ROOM_DETAILS] (state, data) {
+    // store room name
+    Vue.set(state.titles, data.id, data.title)
   }
 }
 
@@ -22,6 +30,15 @@ const actions = {
       type: 'list',
       url: getters.endpoints.rooms,
       mutation: types.SET_ROOMS
+    })
+  },
+  getRoomDetails ({dispatch, getters}, roomId) {
+    dispatch('fetch', {
+      message: 'get helper bot room details',
+      group: 'room',
+      type: roomId,
+      url: getters.endpoints.rooms + '/' + roomId,
+      mutation: types.SET_ROOM_DETAILS
     })
   },
   async joinSupportRoom ({dispatch, getters}, {id, title}) {

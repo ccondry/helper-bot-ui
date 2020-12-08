@@ -11,28 +11,28 @@
 
       <!-- title -->
       <p class="title flex-item" style="min-width: 21rem;">
-        {{ model.displayName }}
+        {{ mutableModel.displayName }}
       </p>
       <p class="subtitle flex-item">
-        {{ model.personEmail }}
+        {{ mutableModel.personEmail }}
       </p>
 
       <!-- main content -->
       <div class="content flex-item">
         <!-- personId -->
         <b-field label="Person ID" label-position="on-border">
-          <b-input v-model="model.personId" />
+          <b-input v-model="mutableModel.personId" />
         </b-field>
 
         <!-- personEmail -->
         <b-field label="Person Email" label-position="on-border">
-          <b-input v-model="model.personEmail" />
+          <b-input v-model="mutableModel.personEmail" />
         </b-field>
 
         <!-- room pairs -->
         <b-table
-        :ref="`helperBotDetails-${model._id}`"
-        :data="model.rooms"
+        :ref="`helperBotDetails-${mutableModel._id}`"
+        :data="mutableModel.rooms"
         :narrowed="true"
         detailed
         detail-key="name"
@@ -43,7 +43,7 @@
           field="name"
           label="Rooms"
           > 
-            <a @click="$refs[`helperBotDetails-${model._id}`].toggleDetails(props.row)">
+            <a @click="$refs[`helperBotDetails-${mutableModel._id}`].toggleDetails(props.row)">
               {{ props.row.name }}
             </a>
           </b-table-column>
@@ -53,7 +53,10 @@
             <article class="media">
               <div class="media-content">
                 <div class="content">
-                  <room-pair :model="props.row" />
+                  <room-pair
+                  :model="props.row"
+                  @delete="clickDeleteRoom(props.row)"
+                  />
                 </div>
               </div>
             </article>
@@ -69,7 +72,7 @@
 
           <template slot="footer">
             <div class="has-text-right">
-              Total Rooms: {{ model.rooms.length }}
+              Total Rooms: {{ totalRooms }}
             </div>
           </template>
         </b-table>
@@ -80,23 +83,43 @@
       <div class="flex-item" style="margin-top: auto;">
         <div class="buttons" style="float: right;">
           <!-- delete button -->
-          <b-button type="is-danger" @click="clickDelete">
+          <!-- <b-button
+          type="is-danger"
+          rounded
+          @click="clickDelete"
+          >
             Delete
-          </b-button>
-          <!-- add Room button -->
-          <b-button type="is-success" @click="clickAddRoom">
-            Add Room
-          </b-button>
+          </b-button> -->
           <!-- reset button -->
-          <b-button type="is-info" @click="clickReset">
+          <b-button
+          type="is-info"
+          rounded
+          @click="clickReset"
+          >
             Reset
           </b-button>
           <!-- clone button -->
-          <b-button type="is-primary" @click="clickClone">
+          <!-- <b-button
+          type="is-primary"
+          rounded
+          @click="clickClone"
+          >
             Clone
+          </b-button> -->
+          <!-- add Room button -->
+          <b-button
+          type="is-success"
+          rounded
+          @click="clickAddRoom"
+          >
+            Add Room
           </b-button>
           <!-- save button -->
-          <b-button type="is-success" @click="clickSave">
+          <b-button
+          type="is-success"
+          rounded
+          @click="clickSave"
+          >
             Save
           </b-button>
         </div>
@@ -120,11 +143,13 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 // import CreateModal from './modals/create-multichannel'
+import AddRoomModal from './modals/add-room'
 import RoomPair from './room-pair'
 
 export default {
   components: {
     // CreateModal,
+    // AddRoomModal,
     RoomPair
   },
 
@@ -157,8 +182,15 @@ export default {
       'working',
       'loading'
     ]),
+    totalRooms () {
+      try {
+        return this.mutableModel.rooms.length
+      } catch (e) {
+        return ''
+      }
+    },
     isWorking () {
-      return this.working.bot.create
+      return this.working.bot.create || this.working.bot[this.model._id]
     }
   },
 
@@ -174,9 +206,9 @@ export default {
 
   methods: {
     ...mapActions([
-      'saveMultichannel',
-      'deleteMultichannel',
-      'createMultichannel'
+      'saveBot',
+      'deleteBot',
+      'createBot'
     ]),
     refresh () {
       this.mutableModel = JSON.parse(JSON.stringify(this.model))
@@ -190,6 +222,7 @@ export default {
         component: CreateModal,
         hasModalCard: true,
         trapFocus: true,
+        rounded: true,
         props: {
           id: this.mutableModel.id,
           name: this.mutableModel.name
@@ -205,42 +238,68 @@ export default {
         }
       })
     },
+    clickAddRoom () {
+      // pop buefy modal to ask for room ID pair
+      this.$buefy.modal.open({
+        parent: this,
+        component: AddRoomModal,
+        hasModalCard: true,
+        trapFocus: true,
+        rounded: true,
+        events: {
+          submit: ({userRoomId, staffRoomId, name}) => {
+            this.mutableModel.rooms.push({
+              name,
+              userRoomId,
+              staffRoomId
+            })
+          }
+        }
+      })
+    },
     clickSave () {
-      // clicked button to save a demo
-      const message = `Are you sure you want to save <strong>${this.mutableModel.name}</strong>?`
+      // clicked button to save
+      const message = `Are you sure you want to save <b>${this.mutableModel.personEmail}</b>?`
       this.$buefy.dialog.confirm({
-        title: 'Save this multichannel option?',
+        title: 'Save helper bot?',
         message,
         cancelText: 'Cancel',
         confirmText: 'Save',
         type: 'is-success',
+        rounded: true,
         onConfirm: () => {
-          // this.saveMultichannel(this.mutableModel)
+          this.saveBot(this.mutableModel)
         }
       })
     },
     clickReset () {
-      const message = `Are you sure you want to reset your changes to <strong>${this.mutableModel.name}</strong>?`
+      const message = `Are you sure you want to reset your changes to <strong>${this.mutableModel.personEmail}</strong>?`
       this.$buefy.dialog.confirm({
-        title: 'Reset your changes to this multichannel option?',
+        title: 'Reset your changes?',
         message,
         cancelText: 'Cancel',
         confirmText: 'Reset',
         type: 'is-success',
+        rounded: true,
         onConfirm: () => {
           this.refresh()
         }
       })
     },
+    clickDeleteRoom (room) {
+      const index = this.mutableModel.rooms.findIndex(v => v === room)
+      this.mutableModel.rooms.splice(index, 1)
+    },
     clickDelete () {
       // clicked button to delete a demo
-      const message = `Are you sure you want to delete <strong>${this.mutableModel.name}</strong>?`
+      const message = `Are you sure you want to delete <strong>${this.mutableModel.personEmail}</strong>?`
       this.$buefy.dialog.confirm({
         title: 'Delete this multichannel option?',
         message,
         cancelText: 'Cancel',
         confirmText: 'Delete',
         type: 'is-danger',
+        rounded: true,
         onConfirm: () => {
           // this.deleteMultichannel(this.mutableModel._id)
         }

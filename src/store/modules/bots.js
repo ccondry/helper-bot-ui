@@ -20,11 +20,25 @@ const actions = {
     dispatch('fetch', {
       message: 'get helper bot users',
       group: 'bot',
-      type: 'users',
+      type: 'list',
       url: getters.endpoints.user,
       mutation: types.SET_USERS
     })
-  }
+  },
+  async saveBot ({dispatch, getters}, body) {
+    await dispatch('fetch', {
+      message: 'save helper bot user',
+      group: 'bot',
+      type: body._id,
+      url: getters.endpoints.user + '/' + body._id,
+      options: {
+        method: 'PUT',
+        body
+      }
+    })
+    // refresh data
+    dispatch('getUsers')
+  },
 }
 
 export default {
