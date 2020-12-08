@@ -10,8 +10,8 @@ if [ $? -eq 0 ]; then
     yarn build
   done
   echo "yarn build successful. copying dist files to www folder..."
-  mkdir -p /var/www/html/helper-bot-ui
-  cp -rf dist/* /var/www/html/helper-bot-ui/
+  mkdir -p /var/www/html/helper
+  cp -rf dist/* /var/www/html/helper/
   if [ $? -eq 0 ]; then
     echo "successfully installed helper-bot-ui website files"
   else

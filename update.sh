@@ -27,8 +27,11 @@ else
         echo "failed to build helper-bot-ui website files. trying again..."
         yarn build
       done
-      echo "yarn build successful. copying dist files to www folder..."
-      cp -rf dist/* /var/www/html/helper-bot-ui/
+      echo "yarn build successful."
+      echo "removing old dist files from www folder..."
+      rm -rf /var/www/html/helper/*
+      echo "copying new dist files to www folder..."
+      cp -rf dist/* /var/www/html/helper/
       if [ $? -eq 0 ]; then
         echo "successfully installed helper-bot-ui website files"
       else
