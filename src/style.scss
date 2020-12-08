@@ -49,9 +49,6 @@ span.tag {
 // and increase their box shadow
 div.collapse.panel {
   border: 1px solid rgb(204, 204, 204);
-}
-
-.box {
   box-shadow: 0 1rem 2rem rgba(0,0,0,.2);
 }
 
@@ -82,8 +79,4 @@ section.main {
   align-items: center;
   // put content in a column down the page
   flex-direction: column;
-}
-
-section.main > div {
-  // padding-bottom: 1rem;
 }
