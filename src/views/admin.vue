@@ -188,8 +188,6 @@
             </template>
           </b-table>
         </div>
-        <!-- copyright and version -->
-        <app-footer />
       </article>
     </div>
   </section>
@@ -199,7 +197,6 @@
 import { mapActions, mapGetters } from 'vuex'
 import moment from 'moment'
 import UserSpace from '../components/space'
-import AppFooter from '../components/app-footer'
 
 function ldap2Utc (ldapTime) {
   return (ldapTime - 116444736000000000) / 10000
@@ -211,8 +208,7 @@ function expiresUtc (user) {
 
 export default {
   components: {
-    UserSpace,
-    AppFooter
+    UserSpace
   },
 
   data () {

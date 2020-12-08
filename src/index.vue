@@ -38,25 +38,34 @@
         Log Out
       </b-button> -->
     </div>
+    <section class="main">
+      <!-- vue-router container -->
+      <transition
+      mode="out-in"
+      enter-active-class="fadeIn"
+      leave-active-class="fadeOut"
+      appear
+      >
+        <keep-alive>
+          <router-view />
+        </keep-alive>
+      </transition>
 
-    <!-- vue-router container -->
-    <transition
-    mode="out-in"
-    enter-active-class="fadeIn"
-    leave-active-class="fadeOut"
-    appear
-    >
-      <keep-alive>
-        <router-view />
-      </keep-alive>
-    </transition>
+      <!-- copyright and version -->
+      <app-footer />
+    </section>
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters, mapState } from 'vuex'
+import AppFooter from './components/app-footer'
 
 export default {
+  components: {
+    AppFooter
+  },
+
   computed: {
     ...mapGetters([
       'isLoggedIn',

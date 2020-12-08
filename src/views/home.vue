@@ -1,17 +1,14 @@
 <template>
-  <section class="main">
+  <div>
     <!-- welcome -->
     <welcome />
 
     <!-- test -->
     <user />
 
-    <!-- copyright and version -->
-    <app-footer />
-
     <!-- loading -->
     <b-loading :active="!isLoggedIn || isLoading || isWorking" />
-  </section>
+  </div>
 </template>
 
 <script>
@@ -19,12 +16,11 @@ import { mapActions, mapGetters } from 'vuex'
 import moment from 'moment'
 import Welcome from '../components/welcome'
 import User from '../components/user'
-import AppFooter from '../components/app-footer'
+
 
 export default {
   components: {
     Welcome,
-    AppFooter,
     User
   },
 
