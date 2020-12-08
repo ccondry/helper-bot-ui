@@ -92,8 +92,6 @@ export default {
     isLoggedIn (val, oldVal) {
       if (val && !oldVal) {
         // user just logged in
-        // check if they have an active AD account
-        this.getUser(this.jwtUser.sub)
       } else if (!val && oldVal) {
         // user just logged out
         // redirect them to SSO
@@ -111,8 +109,7 @@ export default {
   methods: {
     ...mapActions([
       'checkJwt',
-      'logout',
-      'getUser'
+      'logout'
     ]),
     clickAdmin () {
       this.$router.push({name: 'Admin'}).catch(e => {})

@@ -6,8 +6,6 @@
       :data="users"
       :loading="isLoading"
       :narrowed="true"
-      :paginated="true"
-      :per-page="20"
       detailed
       detail-key="_id"
       :show-detail-icon="true"
@@ -16,8 +14,6 @@
         v-slot="props"
         field="name"
         label="Name"
-        sortable
-        searchable
         >
           <a @click="$refs.helperBotTable.toggleDetails(props.row)">
             {{ props.row.personEmail }}
@@ -50,12 +46,6 @@
             </div>
           </section>
         </template>
-
-        <template slot="footer">
-          <div class="has-text-right">
-            Total Helper Bots: {{ users.length }}
-          </div>
-        </template>
       </b-table>
     </div>
   </panel>
@@ -63,9 +53,11 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import HelperBotCard from '../components/helper-bot-card'
 
 export default {
   components: {
+    HelperBotCard
   },
 
   data () {

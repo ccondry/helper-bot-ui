@@ -80,3 +80,19 @@ section.main {
   // put content in a column down the page
   flex-direction: column;
 }
+
+/* slide the drawer out */
+.slide-enter-active {
+  transition: 0.5s;
+}
+.slide-enter {
+  transform: translate(100%, 0);
+}
+
+/* slide the drawer back in */
+.slide-leave-active {
+  transition: 0.5s;
+}
+.slide-leave-to {
+  transform: translate(100%, 0);
+}

@@ -8,14 +8,14 @@ const state = {
   loading: {
     app: {},
     user: {},
-    users: {},
-    ldap: {}
+    ldap: {},
+    bot: {}
   },
   working: {
     app: {},
     user: {},
-    users: {},
-    ldap: {}
+    ldap: {},
+    bot: {}
   },
   isProduction: process.env.NODE_ENV === 'production',
   demoEnvironment: {},
@@ -158,6 +158,7 @@ const actions = {
         if (typeof onError === 'function') {
           onError(error)
         }
+        return error
       }
     } catch (e) {
       console.error(`${message} failed: ${e.message}`)

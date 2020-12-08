@@ -18,6 +18,7 @@ const mutations = {
 const actions = {
   async getUsers ({dispatch, getters}) {
     dispatch('fetch', {
+      message: 'get helper bot users',
       group: 'bot',
       type: 'users',
       url: getters.endpoints.user,
