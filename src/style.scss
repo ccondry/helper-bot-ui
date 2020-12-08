@@ -1,0 +1,89 @@
+// import cisco fonts from momentum-ui
+// $brand-font-folder: '~@momentum-ui/core/fonts';
+// @import '~@momentum-ui/core/scss/tools/functions/core.scss';
+// @import '~@momentum-ui/core/scss/typography/mixins.scss';
+// import font
+// @include brand-font-faces;
+// import momentum-ui color variables
+// @import '~@momentum-ui/core/scss/colors/settings-base.scss';
+@import './momentum-colors.scss';
+
+// set fonts in bulma
+$family-primary: "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+// set bulma colors using momentum-ui colors
+$info: $md-purple-50;
+$danger: $md-red-50;
+$warning: $md-yellow-50;
+$success: $md-green-50;
+$primary: $md-blue-50;
+
+// darken the buttons more on hover and click
+// this matches the momentum-ui code pretty closely
+$button-darken-full: 17%;
+$button-darken-half: 9%;
+
+// lighten up the modal/dialog background color
+$modal-background-background-color: rgba(0, 0, 0, 0.45);
+
+// set links to the primary color
+$link: $primary;
+
+// import bulma source
+@import "~bulma";
+
+// import '~buefy/dist/buefy.css';
+// import buefy source
+@import "~buefy/src/scss/buefy";
+
+$mdi-font-path: '~@mdi/font/fonts';
+// import material design icons
+@import "~@mdi/font/scss/materialdesignicons.scss";
+
+// set buefy b-tag font to regular instead of light
+span.tag {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+// add thin grey border around collapse panels
+// and increase their box shadow
+div.collapse.panel {
+  border: 1px solid rgb(204, 204, 204);
+}
+
+.box {
+  box-shadow: 0 1rem 2rem rgba(0,0,0,.2);
+}
+
+// hide scroll bar
+html, body {
+  background-image: url(./assets/images/sign_in_background.jpg);
+  // background-position: 0 0;
+  background-position: 50%;
+  background-size: cover;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+
+// make container fill viewport
+#main-container {
+  height: 100vh;
+  padding-top: 1rem;
+}
+
+// each route content container class - centered
+section.main {
+  // flex layout
+  display: flex;
+  // keep small amounts of content vertically centered
+  min-height: 100%;
+  justify-content: center;
+  // center panels horizontally
+  align-items: center;
+  // put content in a column down the page
+  flex-direction: column;
+}
+
+section.main > div {
+  // padding-bottom: 1rem;
+}
