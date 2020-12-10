@@ -9,8 +9,10 @@ export const SET_JWT = 'SET_JWT'
 export const SET_ROOMS = 'SET_ROOMS'
 export const SET_ROOM_DETAILS = 'SET_ROOM_DETAILS'
 
-// admin
+// admin - bot users list
 export const SET_USERS = 'SET_USERS'
+// bot user webhooks
+export const SET_WEBHOOKS = 'SET_WEBHOOKS'
 
 // API version
 export const SET_VERSION = 'SET_VERSION'

@@ -2,7 +2,7 @@
   <b-collapse
   :aria-id="ariaId"
   class="panel"
-  animation="slide"
+  animation="fade"
   >
     <div
     v-if="title.length"

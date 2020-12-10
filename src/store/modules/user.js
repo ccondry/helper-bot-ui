@@ -104,12 +104,37 @@ const actions = {
     dispatch('unsetJwt')
   },
   async checkJwt ({dispatch, getters}) {
-    // check if we have an SSO auth code to use first - that is priority over
-    // existing JWT in localStorage
     // get current URL query params
     const query = getUrlQueryParams()
-    if (query.code) {
-      // has SSO auth code - send to REST API to get JWT
+    // check jwt in browser local storage
+    const jwt = window.localStorage.getItem('jwt')
+    // if we found a token, check the web service to see if it's still valid
+    if (jwt !== null && jwt.length > 40) {
+      console.log('found existing JWT in localStorage')
+      // check jwt is valid
+      const response = await dispatch('fetch', {
+        group: 'user',
+        type: 'valid',
+        message: 'check if user login is valid',
+        url: getters.endpoints.validLogin,
+        options: {
+          headers: {
+            Authorization: 'Bearer ' + jwt
+          }
+        }
+      })
+      if (response instanceof Error) {
+        // unexpected error, like network error or 500 error
+        Toast.open({
+          message: 'Failed to check get your CMS user information: ' + e.message,
+          duration: 8 * 1000,
+          type: 'is-danger'
+        })
+      } else {
+        dispatch('setJwt', jwt)
+      }
+    } else if (query.state === 'helper-bot-login' && query.code) {
+      // no JWT in localstorage, but has SSO login auth code. complete SSO login.
       const response = await dispatch('fetch', {
         url: getters.endpoints.sso,
         group: 'user',
@@ -143,37 +168,8 @@ const actions = {
         router.push({query})
       }
     } else {
-      // check jwt in browser local storage
-      const jwt = window.localStorage.getItem('jwt')
-      // if we found a token, check the web service to see if it's still valid
-      if (jwt !== null && jwt.length > 40) {
-        console.log('found existing JWT in localStorage')
-        // check jwt is valid
-        const response = await dispatch('fetch', {
-          group: 'user',
-          type: 'valid',
-          message: 'check if user login is valid',
-          url: getters.endpoints.validLogin,
-          options: {
-            headers: {
-              Authorization: 'Bearer ' + jwt
-            }
-          }
-        })
-        if (response instanceof Error) {
-          // unexpected error, like network error or 500 error
-          Toast.open({
-            message: 'Failed to check get your CMS user information: ' + e.message,
-            duration: 8 * 1000,
-            type: 'is-danger'
-          })
-        } else {
-          dispatch('setJwt', jwt)
-        }
-      } else {
-        // no JWT - send user to SSO login
-        window.location = getters.ssoUrl
-      }
+      // no JWT and no SSO auth code - send user to SSO login
+      window.location = getters.ssoUrl
     }
   }
 }

@@ -29,6 +29,26 @@
           <b-input v-model="mutableModel.personEmail" />
         </b-field>
 
+        <!-- Webhook secret -->
+        <b-field label="Webhook Secret" label-position="on-border">
+          <b-input v-model="mutableModel.webhookSecret" />
+        </b-field>
+
+        <!-- current token -->
+        <b-field
+        v-if="typeof mutableModel.token === 'object'"
+        label="Current Access Token"
+        label-position="on-border"
+        >
+          <b-input
+          :value="mutableModel.token.access_token"
+          type="textarea"
+          />
+        </b-field>
+
+        <!-- webhooks -->
+        <webhooks :model="mutableModel" />
+
         <!-- room pairs -->
         <b-table
         :ref="`helperBotDetails-${mutableModel._id}`"
@@ -65,7 +85,7 @@
           <template slot="empty">
             <section class="section">
               <div class="content has-text-grey has-text-centered">
-                <p>No Helper Bot room pairs match your filter</p>
+                <p>No room pairs defined for {{ mutableModel.displayName }}</p>
               </div>
             </section>
           </template>
@@ -83,13 +103,13 @@
       <div class="flex-item" style="margin-top: auto;">
         <div class="buttons" style="float: right;">
           <!-- delete button -->
-          <!-- <b-button
+          <b-button
           type="is-danger"
           rounded
           @click="clickDelete"
           >
             Delete
-          </b-button> -->
+          </b-button>
           <!-- reset button -->
           <b-button
           type="is-info"
@@ -145,12 +165,14 @@ import { mapActions, mapGetters } from 'vuex'
 // import CreateModal from './modals/create-multichannel'
 import AddRoomModal from './modals/add-room'
 import RoomPair from './room-pair'
+import Webhooks from './webhooks'
 
 export default {
   components: {
     // CreateModal,
     // AddRoomModal,
-    RoomPair
+    RoomPair,
+    Webhooks
   },
 
   props: {
@@ -180,7 +202,8 @@ export default {
   computed: {
     ...mapGetters([
       'working',
-      'loading'
+      'loading',
+      'webhooks'
     ]),
     totalRooms () {
       try {
@@ -292,16 +315,16 @@ export default {
     },
     clickDelete () {
       // clicked button to delete a demo
-      const message = `Are you sure you want to delete <strong>${this.mutableModel.personEmail}</strong>?`
+      const message = `Are you sure you want to delete <b>${this.mutableModel.personEmail}</b>?`
       this.$buefy.dialog.confirm({
-        title: 'Delete this multichannel option?',
+        title: 'Delete this bot user?',
         message,
         cancelText: 'Cancel',
         confirmText: 'Delete',
         type: 'is-danger',
         rounded: true,
         onConfirm: () => {
-          // this.deleteMultichannel(this.mutableModel._id)
+          this.deleteBot(this.mutableModel)
         }
       })
     }

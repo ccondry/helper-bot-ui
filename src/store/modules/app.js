@@ -10,14 +10,16 @@ const state = {
     user: {},
     ldap: {},
     bot: {},
-    room: {}
+    room: {},
+    webhook: {}
   },
   working: {
     app: {},
     user: {},
     ldap: {},
     bot: {},
-    room: {}
+    room: {},
+    webhook: {}
   },
   isProduction: process.env.NODE_ENV === 'production',
   uiVersion: version,

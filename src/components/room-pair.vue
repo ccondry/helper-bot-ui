@@ -14,7 +14,7 @@
     <b-field label="User Room Title" label-position="on-border">
       <div class="control is-clearfix">
         <div>
-           {{ userRoomTitle }}
+          {{ userRoomTitle }}
         </div>
       </div>
     </b-field>
@@ -28,7 +28,7 @@
     <b-field label="Staff Room Title" label-position="on-border">
       <div class="control is-clearfix">
         <div>
-           {{ staffRoomTitle }}
+          {{ staffRoomTitle }}
         </div>
       </div>
     </b-field>

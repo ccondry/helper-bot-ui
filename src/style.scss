@@ -81,20 +81,27 @@ section.main {
   flex-direction: column;
 }
 
-/* slide the drawer out */
-.slide-enter-active {
-  transition: 0.5s;
-}
-.slide-enter {
-  transform: translate(100%, 0);
-}
+// /* slide the drawer out */
+// .slide-enter-active {
+//   transition: 0.5s;
+// }
+// .slide-enter {
+//   transform: translate(100%, 0);
+// }
 
-/* slide the drawer back in */
-.slide-leave-active {
-  transition: 0.5s;
+// /* slide the drawer back in */
+// .slide-leave-active {
+//   transition: 0.5s;
+// }
+// .slide-leave-to {
+//   transform: translate(100%, 0);
+// }
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
 }
-.slide-leave-to {
-  transform: translate(100%, 0);
+.fade-enter, .fade-leave-to {
+  opacity: 0;
 }
 
 // fix buefy switch in b-field with floating label
