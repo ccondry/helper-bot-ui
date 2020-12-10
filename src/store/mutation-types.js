@@ -13,6 +13,8 @@ export const SET_ROOM_DETAILS = 'SET_ROOM_DETAILS'
 export const SET_USERS = 'SET_USERS'
 // bot user webhooks
 export const SET_WEBHOOKS = 'SET_WEBHOOKS'
+// bot user room memberships
+export const SET_MEMBERSHIPS = 'SET_MEMBERSHIPS'
 
 // API version
 export const SET_VERSION = 'SET_VERSION'

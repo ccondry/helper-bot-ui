@@ -1,54 +1,50 @@
 <template>
-  <b-field label="Webhook">
-    <div
-    v-if="loading.webhook[model._id]"
-    >
-      <b-loading
-      :active="true"
-      :is-full-page="false"
-      />
-      Loading...
-    </div>
-    <div v-else>
-      <!-- valid webhooks -->
-      <b-tag
-      v-if="activeWebhooks.length > 0"
-      type="is-success"
-      rounded
-      >
-        Has {{ activeWebhooks.length }} valid {{ activeWebhooks.length === 1 ? 'webhook' : 'webhooks' }}
-      </b-tag>
+  <div style="position: relative;">
+    <b-loading :active="isWorking || isLoading" :is-full-page="false" />
 
-      <!-- no valid webhooks -->
+    <!-- active webhooks -->
+    <div v-if="activeWebhooks.length > 0">
+      <div class="subtitle" style="margin-top: 2rem;">
+        Valid Webhooks
+      </div>
+      <webhook-table
+      :model="activeWebhooks"
+      @delete="clickDeleteWebhook"
+      />
+    </div>
+
+    <div v-else class="buttons">
       <b-button
-      v-if="!activeWebhooks.length > 0"
-      type="is-primary"
-      size="is-small"
       rounded
+      type="is-success"
       @click="clickCreateWebhook"
       >
-        No valid webhooks - click here to fix it
-      </b-button>
-      
-      <!-- invalid webhooks -->
-      <b-button
-      v-if="inactiveWebhooks.length > 0"
-      type="is-primary"
-      size="is-small"
-      rounded
-      @click="clickRemoveInactiveWebhooks"
-      >
-        Has {{ inactiveWebhooks.length }} invalid {{ inactiveWebhooks.length === 1 ? 'webhook' : 'webhooks' }}
+        Create Webhook
       </b-button>
     </div>
-    <!-- <pre>{{ activeWebhooks }}</pre> -->
-    <!-- <pre>{{ myWebhooks }}</pre> -->
-  </b-field>
+
+    <!-- inactive webhooks -->
+    <div v-if="inactiveWebhooks.length > 0">
+      <div class="subtitle" style="margin-top: 2rem;">
+        Invalid Webhooks
+      </div>
+      <webhook-table
+      :model="inactiveWebhooks"
+      @delete="clickDeleteWebhook"
+      />
+    </div>
+  </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import WebhookTable from './webhook-table'
+
 export default {
+  components: {
+    WebhookTable
+  },
+
   props: {
     model: {
       required: true,
@@ -62,6 +58,13 @@ export default {
       'working',
       'webhooks'
     ]),
+    isLoading () {
+      return this.loading.webhook[this.model._id]
+      // return true
+    },
+    isWorking () {
+      return this.working.webhook[this.model._id]
+    },
     inactiveWebhooks () {
       return this.myWebhooks.filter(webhook => {
         return !this.activeWebhooks.find(w => w === webhook)
@@ -88,14 +91,27 @@ export default {
 
   methods: {
     ...mapActions([
-      'createWebhook'
+      'createWebhook',
+      'deleteWebhook'
     ]), 
-    clickRemoveInactiveWebhooks (id) {
-      this.deleteWebhook(id)
-    },
     clickCreateWebhook () {
       this.createWebhook(this.model._id)
     },
+    clickDeleteWebhook (webhook) {
+      this.$buefy.dialog.confirm({
+        title: 'Delete Webhook?',
+        message: `Are you sure you want to delete the webhook <b>${webhook.name}</b> from the user <b>${this.model.personEmail}</b>?`,
+        rounded: true,
+        type: 'is-danger',
+        confirmText: 'Delete',
+        onConfirm: () => {
+          this.deleteWebhook({
+            userId: this.model._id,
+            webhookId: webhook.id
+          })
+        }
+      })
+    }
   }
 }
 </script>

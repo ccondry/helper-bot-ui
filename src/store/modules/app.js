@@ -11,7 +11,8 @@ const state = {
     ldap: {},
     bot: {},
     room: {},
-    webhook: {}
+    webhook: {},
+    membership: {}
   },
   working: {
     app: {},
@@ -19,7 +20,8 @@ const state = {
     ldap: {},
     bot: {},
     room: {},
-    webhook: {}
+    webhook: {},
+    membership: {}
   },
   isProduction: process.env.NODE_ENV === 'production',
   uiVersion: version,

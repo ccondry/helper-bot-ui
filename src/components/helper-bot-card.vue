@@ -49,6 +49,9 @@
         <!-- webhooks -->
         <webhooks :model="mutableModel" />
 
+        <div class="subtitle" style="margin-top: 2rem;">
+          Rooms
+        </div>
         <!-- room pairs -->
         <b-table
         :ref="`helperBotDetails-${mutableModel._id}`"
@@ -61,7 +64,6 @@
           <b-table-column
           v-slot="props"
           field="name"
-          label="Rooms"
           > 
             <a @click="$refs[`helperBotDetails-${mutableModel._id}`].toggleDetails(props.row)">
               {{ props.row.name }}
@@ -75,6 +77,7 @@
                 <div class="content">
                   <room-pair
                   :model="props.row"
+                  :user="mutableModel"
                   @delete="clickDeleteRoom(props.row)"
                   />
                 </div>
@@ -90,11 +93,11 @@
             </section>
           </template>
 
-          <template slot="footer">
+          <!-- <template slot="footer">
             <div class="has-text-right">
               Total Rooms: {{ totalRooms }}
             </div>
-          </template>
+          </template> -->
         </b-table>
       </div>
       <!-- /content -->
@@ -108,39 +111,43 @@
           rounded
           @click="clickDelete"
           >
-            Delete
+            Delete {{ mutableModel.displayName }}
           </b-button>
+
           <!-- reset button -->
           <b-button
           type="is-info"
           rounded
           @click="clickReset"
           >
-            Reset
+            Reset Changes
           </b-button>
-          <!-- clone button -->
-          <!-- <b-button
-          type="is-primary"
-          rounded
-          @click="clickClone"
-          >
-            Clone
-          </b-button> -->
+
           <!-- add Room button -->
           <b-button
           type="is-success"
           rounded
           @click="clickAddRoom"
           >
-            Add Room
+            Add Existing Rooms
           </b-button>
+
+          <!-- create Room button -->
+          <b-button
+          type="is-success"
+          rounded
+          @click="clickCreateRooms"
+          >
+            Create New Rooms
+          </b-button>
+
           <!-- save button -->
           <b-button
           type="is-success"
           rounded
           @click="clickSave"
           >
-            Save
+            Save {{ mutableModel.displayName }}
           </b-button>
         </div>
       </div>
@@ -164,6 +171,7 @@
 import { mapActions, mapGetters } from 'vuex'
 // import CreateModal from './modals/create-multichannel'
 import AddRoomModal from './modals/add-room'
+import CreateRoomsModal from './modals/create-rooms'
 import RoomPair from './room-pair'
 import Webhooks from './webhooks'
 
@@ -231,7 +239,8 @@ export default {
     ...mapActions([
       'saveBot',
       'deleteBot',
-      'createBot'
+      'createBot',
+      'createRooms'
     ]),
     refresh () {
       this.mutableModel = JSON.parse(JSON.stringify(this.model))
@@ -275,6 +284,26 @@ export default {
               name,
               userRoomId,
               staffRoomId
+            })
+          }
+        }
+      })
+    },
+    clickCreateRooms () {
+      // pop buefy modal to ask for room ID pair
+      this.$buefy.modal.open({
+        parent: this,
+        component: CreateRoomsModal,
+        hasModalCard: true,
+        trapFocus: true,
+        rounded: true,
+        events: {
+          submit: ({userRoomTitle, staffRoomTitle, name}) => {
+            this.createRooms({
+              name,
+              userId: this.model._id,
+              userRoomTitle,
+              staffRoomTitle
             })
           }
         }

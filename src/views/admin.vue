@@ -125,7 +125,10 @@ export default {
         'spark:people_read',
         'spark:messages_read',
         'spark:messages_write',
-        'spark:rooms_read'
+        'spark:rooms_read',
+        'spark:rooms_write',
+        'spark:memberships_read',
+        'spark:memberships_write'
       ]
       const params = {
         // TODO get client_id from REST API since it is defined there

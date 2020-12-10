@@ -6,12 +6,14 @@ import Vue from 'vue'
 
 const state = {
   users: [],
-  webhooks: {}
+  webhooks: {},
+  memberships: {}
 }
 
 const getters = {
   users: state => state.users,
   webhooks: state => state.webhooks,
+  memberships: state => state.memberships
 }
 
 const mutations = {
@@ -20,36 +22,143 @@ const mutations = {
     state.users = data
   },
   [types.SET_WEBHOOKS] (state, {id, data}) {
-    // console.log('SET_WEBHOOKS', {id, data })
     Vue.set(state.webhooks, id, data.items)
+  },
+  [types.SET_MEMBERSHIPS] (state, {id, data}) {
+    Vue.set(state.memberships, id, data.items)
   }
 }
 
 const actions = {
-  async createWebhook ({dispatch, getters}, id) {
+  async createRooms ({dispatch, getters}, {
+    userId,
+    name,
+    userRoomTitle,
+    staffRoomTitle
+  }) {
     await dispatch('fetch', {
-      message: 'create helper bot user webhook',
-      group: 'user',
-      type: id,
-      url: `${getters.endpoints.user}/${id}/webhook`,
+      message: 'create helper bot user and staff rooms',
+      group: 'room',
+      type: 'create',
+      url: `${getters.endpoints.user}/${userId}/rooms`,
+      options: {
+        method: 'POST',
+        body: {
+          name,
+          userRoomTitle,
+          staffRoomTitle
+        }
+      }
+    })
+    // refresh all data now
+    dispatch('getBots')
+  },
+  async createMembership ({dispatch, getters}, {userId, roomId, personEmail}) {
+    // join arbitrary person to bot's room
+    const response = await dispatch('fetch', {
+      message: 'add person to room',
+      group: 'bot',
+      type: userId,
+      url: `${getters.endpoints.user}/${userId}/room/${roomId}/membership`,
+      options: {
+        method: 'POST',
+        body: {
+          personEmail
+        }
+      }
+    })
+    if (response instanceof Error) {
+      // error
+      if (response.status === 409) {
+        // user already in room error
+        Toast.open({
+          message: `The user ${personEmail} is already in that Webex Teams Room`,
+          duration: 6 * 1000,
+          type: 'is-success'
+        })
+      } else {
+        // unexpected error
+        Toast.open({
+          message: `Failed to add ${personEmail} to Webex Teams Room: ${response.status}`,
+          duration: 12 * 1000,
+          type: 'is-danger'
+        })
+      }
+    } else {
+      // success
+      Toast.open({
+        message: `Successfully added ${personEmail} to Webex Teams Room`,
+        duration: 6 * 1000,
+        type: 'is-success'
+      })
+    }
+  },
+  async joinRoom ({dispatch, getters}, {userId, roomId}) {
+    // join bot to room
+    await dispatch('fetch', {
+      message: 'join helper bot user to a room',
+      group: 'bot',
+      type: userId,
+      url: `${getters.endpoints.user}/${userId}/join/${roomId}`,
       options: {
         method: 'POST'
       }
     })
     // refresh data now
-    dispatch('getWebhooks')
+    dispatch('getMemberships', userId)
   },
-  async getWebhooks ({dispatch, getters}, id) {
+  async createWebhook ({dispatch, getters}, userId) {
+    await dispatch('fetch', {
+      message: 'create helper bot user webhook',
+      group: 'webhook',
+      type: userId,
+      url: `${getters.endpoints.user}/${userId}/webhook`,
+      options: {
+        method: 'POST'
+      }
+    })
+    // refresh data now
+    dispatch('getWebhooks', userId)
+  },
+  async deleteWebhook ({dispatch, getters}, {userId, webhookId}) {
+    await dispatch('fetch', {
+      message: 'delete helper bot user webhook',
+      group: 'webhook',
+      type: userId,
+      url: `${getters.endpoints.user}/${userId}/webhook/${webhookId}`,
+      options: {
+        method: 'DELETE'
+      }
+    })
+    // refresh data now
+    dispatch('getWebhooks', userId)
+  },
+  async getWebhooks ({dispatch, getters}, userId) {
     dispatch('fetch', {
       message: 'get helper bot user webhooks list',
       group: 'webhook',
-      type: id,
-      url: `${getters.endpoints.user}/${id}/webhook`,
+      type: userId,
+      url: `${getters.endpoints.user}/${userId}/webhook`,
       mutation: types.SET_WEBHOOKS,
       transform: data => {
         return {
           data,
-          id
+          id: userId
+        }
+      }
+    })
+  },
+  async getMemberships ({dispatch, getters}, userId) {
+    dispatch('fetch', {
+      message: 'get helper bot user room membership list',
+      group: 'webhook',
+      type: userId,
+      url: `${getters.endpoints.user}/${userId}/membership`,
+      mutation: types.SET_MEMBERSHIPS,
+      transform: data => {
+        return {
+          data,
+          id: userId
         }
       }
     })
@@ -62,10 +171,11 @@ const actions = {
       url: getters.endpoints.user,
       mutation: types.SET_USERS
     })
-    // get webhooks associated with each bot
+    // get webhooks and memberships associated with each bot
     for (const user of users) {
       if (user._id) {
         dispatch('getWebhooks', user._id)
+        dispatch('getMemberships', user._id)
       }
     }
   },
