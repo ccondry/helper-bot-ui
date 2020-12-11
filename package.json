@@ -1,6 +1,6 @@
 {
   "name": "helper-bot-ui",
-  "version": "2020.12.8-3",
+  "version": "2020.12.10",
   "description": "UI for the dCloud Helper Bot admin web portal",
   "author": "Coty Condry <ccondry@cisco.com>",
   "main": "dist/js/index.common.js",
