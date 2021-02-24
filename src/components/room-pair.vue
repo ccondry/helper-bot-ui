@@ -6,7 +6,7 @@
     </b-field>
 
     <!-- userRoomId -->
-    <b-field label="User Room" label-position="on-border">
+    <b-field label="User Room ID" label-position="on-border">
       <b-input v-model="model.userRoomId" />
     </b-field>
 
@@ -68,7 +68,7 @@
     <br />
 
     <!-- staffRoomId -->
-    <b-field label="Staff Room" label-position="on-border">
+    <b-field label="Staff Room ID" label-position="on-border">
       <b-input v-model="model.staffRoomId" />
     </b-field>
 
