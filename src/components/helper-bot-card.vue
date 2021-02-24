@@ -31,7 +31,11 @@
 
         <!-- Webhook secret -->
         <b-field label="Webhook Secret" label-position="on-border">
-          <b-input v-model="mutableModel.webhookSecret" />
+          <b-input
+          type="password"
+          v-model="mutableModel.webhookSecret"
+          password-reveal
+          />
         </b-field>
 
         <!-- current token -->
@@ -42,7 +46,8 @@
         >
           <b-input
           :value="mutableModel.token.access_token"
-          type="textarea"
+          type="password"
+          password-reveal
           />
         </b-field>
 
