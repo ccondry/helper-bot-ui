@@ -68,7 +68,7 @@
         rounded
         @click="clickAddUser"
         >
-          Add User
+          Add New Helper Bot User
         </b-button>
       </div>
     </div>
