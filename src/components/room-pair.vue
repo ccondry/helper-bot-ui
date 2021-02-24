@@ -23,18 +23,29 @@
     <b-field label="Bot In User Room?" label-position="on-border">
       <div class="control is-clearfix">
         <div>
-          <b-tag
+          <!-- yes -->
+          <b-tooltip
           v-if="isInUserRoom"
-          type="is-success"
+          label="The Helper user is in this room."
           >
-           Yes
-          </b-tag>
-          <b-tag
+            <b-tag
+            type="is-success"
+            >
+            Yes
+            </b-tag>
+          </b-tooltip>
+
+          <!-- no -->
+          <b-tooltip
           v-else
-          type="is-warning"
+          label="The Helper user is not in this room."
           >
-           No
-          </b-tag>
+            <b-tag
+            type="is-warning"
+            >
+            No
+            </b-tag>
+          </b-tooltip>
         </div>
       </div>
     </b-field>
@@ -70,22 +81,33 @@
       </div>
     </b-field>
 
-    <!-- is user in room? -->
+    <!-- is bot user in staff room? -->
     <b-field label="Bot In Staff Room?" label-position="on-border">
       <div class="control is-clearfix">
         <div>
-          <b-tag
+          <!-- yes -->
+          <b-tooltip
           v-if="isInStaffRoom"
-          type="is-success"
+          label="The Helper user is in this room."
           >
-           Yes
-          </b-tag>
-          <b-tag
+            <b-tag
+            type="is-success"
+            >
+            Yes
+            </b-tag>
+          </b-tooltip>
+
+          <!-- no -->
+          <b-tooltip
           v-else
-          type="is-warning"
+          label="The Helper user is in this room."
           >
-           No
-          </b-tag>
+            <b-tag
+            type="is-warning"
+            >
+            No
+            </b-tag>
+          </b-tooltip>
         </div>
       </div>
     </b-field>
@@ -107,7 +129,9 @@
     
     <!-- hidden -->
     <b-field label="Hidden" label-position="on-border">
-      <b-checkbox v-model="model.hidden" />
+      <b-tooltip label="Whether this room is shown to users on the home page of this site.">
+        <b-checkbox v-model="model.hidden" />
+      </b-tooltip>
     </b-field>
 
     <div class="buttons" style="display: flex; justify-content: flex-end;">
