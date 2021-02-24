@@ -4,6 +4,13 @@ Version numbers are semver-compatible dates in YYYY.MM.DD-X format,
 where X is the revision number
 
 
+# 2021.2.24
+
+### Features
+* **Admin:** Hide secret and tokens by default with password-reveal. Add
+tooltips to some configuration items, and update some field labels for clarity. 
+
+
 # 2020.11.2
 
 ### Bug Fixes
