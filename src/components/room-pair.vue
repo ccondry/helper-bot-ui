@@ -45,7 +45,6 @@
         <div>
           <b-button
           type="is-success"
-          size="is-small"
           rounded
           @click="addSomeoneToUserRoom"
           >
@@ -97,7 +96,6 @@
         <div>
           <b-button
           type="is-success"
-          size="is-small"
           rounded
           @click="addSomeoneToStaffRoom"
           >
