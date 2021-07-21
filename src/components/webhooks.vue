@@ -74,7 +74,7 @@ export default {
       // look for an valid active webhook
       return this.myWebhooks.filter(webhook => {
         return webhook.resource === 'messages' &&
-          webhook.event === 'created' &&
+          // webhook.event === 'created' &&
           webhook.targetUrl === 'https://mm-helper.cxdemo.net/api/v1/webhook' &&
           webhook.status === 'active' && 
           webhook.secret === this.model.webhookSecret
