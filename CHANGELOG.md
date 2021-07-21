@@ -4,6 +4,12 @@ Version numbers are semver-compatible dates in YYYY.MM.DD-X format,
 where X is the revision number
 
 
+# 2021.7.21
+
+### Features
+* **Admin:** Show webhooks of any event type as valid.
+
+
 # 2021.2.24
 
 ### Features
