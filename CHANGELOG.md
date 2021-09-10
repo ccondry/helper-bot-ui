@@ -4,6 +4,13 @@ Version numbers are semver-compatible dates in YYYY.MM.DD-X format,
 where X is the revision number
 
 
+# 2021.9.10-1
+
+### Features
+* **Admin:** Add direct messages room title input when creating bot rooms for
+a bot without a directRoomId set.
+
+
 # 2021.9.10
 
 ### Features
