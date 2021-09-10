@@ -51,9 +51,6 @@
           />
         </b-field>
 
-        <!-- webhooks -->
-        <webhooks :model="mutableModel" />
-
         <!-- direct messages room -->
         <b-field
         label="Direct Messages Room ID"
@@ -63,6 +60,9 @@
           v-model="mutableModel.directRoomId"
           />
         </b-field>
+
+        <!-- webhooks -->
+        <webhooks :model="mutableModel" />
 
         <!-- room pairs -->
         <div class="subtitle" style="margin-top: 2rem;">
