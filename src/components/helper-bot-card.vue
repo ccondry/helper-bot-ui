@@ -313,6 +313,9 @@ export default {
         hasModalCard: true,
         trapFocus: true,
         rounded: true,
+        props: {
+          hasDirectRoomId: this.model.directRoomId ? true : false
+        },
         events: {
           submit: ({userRoomTitle, staffRoomTitle, name}) => {
             this.createRooms({

@@ -36,6 +36,17 @@
         required
         />
       </b-field>
+
+      <b-field
+      v-if="!hasDirectRoomId"
+      label="Direct Messages Room Title"
+      >
+        <b-input
+        v-model="mutableModel.directRoomTitle"
+        placeholder="My Demo - Direct Messages"
+        required
+        />
+      </b-field>
     </section>
 
     <footer class="modal-card-foot">
@@ -60,11 +71,19 @@
 
 <script>
 export default {
+  props: {
+    hasDirectRoomId: {
+      type: Boolean,
+      required: true
+    }
+  },
+
   data () {
     return {
       mutableModel: {
         staffRoomTitle: '',
         userRoomTitle: '',
+        directRoomTitle: '',
         name: ''
       }
     }
