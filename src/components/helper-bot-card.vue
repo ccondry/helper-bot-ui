@@ -54,10 +54,21 @@
         <!-- webhooks -->
         <webhooks :model="mutableModel" />
 
+        <!-- direct messages room -->
+        <b-field
+        label="Direct Messages Room ID"
+        label-position="on-border"
+        >
+          <b-input
+          v-model="mutableModel.directRoomId"
+          />
+        </b-field>
+
+        <!-- room pairs -->
         <div class="subtitle" style="margin-top: 2rem;">
           Rooms
         </div>
-        <!-- room pairs -->
+
         <b-table
         :ref="`helperBotDetails-${mutableModel._id}`"
         :data="mutableModel.rooms"
