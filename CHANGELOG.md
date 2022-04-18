@@ -4,6 +4,14 @@ Version numbers are semver-compatible dates in YYYY.MM.DD-X format,
 where X is the revision number
 
 
+# 2022.4.18-1
+
+### Features
+* **Site:** Add a "bot" page route that will filter the rooms list to ones owned
+by that bot. Also add a "room" page route that will only offer a single room
+by ID.
+
+
 # 2022.4.18
 
 ### Fixes
