@@ -1,9 +1,9 @@
 <template>
   <panel title="Join a Support Room" aria-id="join-support-room">
-    <p>
+    <p v-if="!room">
       Join one of our Webex Teams support rooms:
     </p>
-    <b-field>
+    <b-field v-if="!room">
       <b-select 
       v-model="roomId"
       expanded
@@ -13,7 +13,7 @@
           Choose a Webex Room
         </option>
         <option
-        v-for="(room, index) of rooms"
+        v-for="(room, index) of filteredRooms"
         :key="index"
         :value="room.id"
         >
@@ -40,6 +40,19 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 export default {
+  props: {
+    bot: {
+      type: String,
+      required: false,
+      default: ''
+    },
+    room: {
+      type: String,
+      required: false,
+      default: ''
+    }
+  },
+
   data () {
     return {
       roomId: null
@@ -53,6 +66,14 @@ export default {
       'working',
       'loading'
     ]),
+    filteredRooms () {
+      if (this.bot) {
+        return this.rooms.filter(v => v.personEmail === this.bot)
+      }
+      if (this.room) {
+        return this.rooms.filter(v => v.id === this.room)
+      }
+    },
     isWorking () {
       return this.working.room.join
     },
@@ -68,6 +89,12 @@ export default {
       } catch (e) {
         return 'Support Room'
       }
+    }
+  },
+
+  mounted () {
+    if (this.room) {
+      this.roomId = this.room
     }
   },
 
