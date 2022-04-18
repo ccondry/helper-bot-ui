@@ -68,7 +68,7 @@ export default {
     ]),
     filteredRooms () {
       if (this.bot) {
-        return this.rooms.filter(v => v.personEmail === this.bot)
+        return this.rooms.filter(v => v.bot === this.bot)
       }
       if (this.room) {
         return this.rooms.filter(v => v.id === this.room)
