@@ -13,11 +13,11 @@
           Choose a Webex Room
         </option>
         <option
-        v-for="(room, index) of filteredRooms"
+        v-for="(r, index) of filteredRooms"
         :key="index"
-        :value="room.id"
+        :value="r.id"
         >
-          {{ room.title }}
+          {{ r.title }}
         </option>
       </b-select>
     </b-field>
