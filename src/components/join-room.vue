@@ -73,6 +73,7 @@ export default {
       if (this.room) {
         return this.rooms.filter(v => v.id === this.room)
       }
+      return this.rooms
     },
     isWorking () {
       return this.working.room.join
