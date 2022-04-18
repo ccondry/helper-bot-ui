@@ -92,6 +92,8 @@ export default {
     isLoggedIn (val, oldVal) {
       if (val && !oldVal) {
         // user just logged in
+        // get main site data for user
+        this.getRooms()
       } else if (!val && oldVal) {
         // user just logged out
         // redirect them to SSO
@@ -112,7 +114,8 @@ export default {
     ...mapActions([
       'checkJwt',
       'logout',
-      'getApiVersion'
+      'getApiVersion',
+      'getRooms'
     ]),
     clickAdmin () {
       this.$router.push({name: 'Admin'}).catch(e => {})

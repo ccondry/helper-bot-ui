@@ -87,8 +87,6 @@ const actions = {
       commit(types.SET_JWT, jwt)
       // put JWT in localStorage
       window.localStorage.setItem('jwt', jwt)
-      // get main site data for user
-      dispatch('getRooms')
     } catch (e) {
       // parseJwt failed - delete this invalid JWT
       dispatch('unsetJwt')
