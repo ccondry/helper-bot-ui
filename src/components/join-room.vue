@@ -3,7 +3,7 @@
     <p v-if="!room">
       Join one of our Webex Teams support rooms:
     </p>
-    <b-field v-if="!room">
+    <b-field v-if="filteredRooms.length !== 1">
       <b-select 
       v-model="roomId"
       expanded
@@ -94,8 +94,19 @@ export default {
   },
 
   mounted () {
-    if (this.room) {
-      this.roomId = this.room
+    // if (this.room) {
+    //   this.roomId = this.room
+    // }
+    if (this.filteredRooms.length === 1) {
+      this.roomId = this.filteredRooms[0].id
+    }
+  },
+
+  watch: {
+    filteredRooms () {
+      if (this.filteredRooms.length === 1) {
+        this.roomId = this.filteredRooms[0].id
+      }
     }
   },
 
