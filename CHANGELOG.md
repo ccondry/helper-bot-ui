@@ -4,6 +4,12 @@ Version numbers are semver-compatible dates in YYYY.MM.DD-X format,
 where X is the revision number
 
 
+# 2022.4.18
+
+### Fixes
+* **Build:** Fix SASS library.
+
+
 # 2021.9.10-1
 
 ### Features
