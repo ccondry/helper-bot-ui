@@ -61,7 +61,7 @@ const getters = {
   },
   ssoUrl: (state, getters) => {
     // the URL to send the user to for SSO login
-    const endpoint = 'https://cloudsso.cisco.com/as/authorization.oauth2'
+    const endpoint = 'https://id.cisco.com/oauth2/default/v1/authorize'
     const scopes = [
       'profile',
       'email',

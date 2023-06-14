@@ -1,5 +1,5 @@
 <template>
-  <panel :title="`Welcome ${jwtUser.given_name}!`" aria-id="welcome">
+  <panel :title="`Welcome ${jwtUser.first_name}!`" aria-id="welcome">
     <p>
       Welcome to the Cisco dCloud Helper Bot.
     </p>
