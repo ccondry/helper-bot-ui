@@ -33,13 +33,6 @@ const getters = {
       return false
     }
   },
-  adUser: (state, getters) => {
-    try {
-      return getters.users.find(v => v.sAMAccountName === getters.jwtUser.sub)
-    } catch (e) {
-      return null
-    }
-  },
   jwt: state => state.jwt,
   isLoggedIn: (state, getters) => {
     try {
